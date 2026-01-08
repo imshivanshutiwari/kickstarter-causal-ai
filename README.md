@@ -1,12 +1,15 @@
 # 🦄 Kickstarter Counterfactual Simulator: The Ultimate Edition
 
-````carousel
-![Hero Banner](assets/hero_banner.png)
-<!-- slide -->
-![Deep Analysis](assets/deep_analysis.png)
-<!-- slide -->
-![AI Brain](assets/ai_brain.png)
-````
+
+<!-- Header Images -->
+<p align="center">
+  <img src="assets/hero_banner.png" width="100%" alt="Hero Banner">
+</p>
+<p align="center">
+  <img src="assets/deep_analysis.png" width="48%" alt="Deep Analysis">
+  <img src="assets/ai_brain.png" width="48%" alt="AI Brain">
+</p>
+
 
 > **"Where Deep Learning Meets Causal Economics"**
 > *An autonomous system that predicts success, optimizes pricing through causal inference, and provides strategic consulting via Generative AI.*
