@@ -1,0 +1,166 @@
+# Kickstarter Counterfactual Project Configuration
+# All settings in one place for easy modification
+
+# =============================================================================
+# DATA PATHS
+# =============================================================================
+data:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  kaggle_dir: "data/raw/kaggle"
+  models_dir: "src/models"
+  
+  # Input files
+  kaggle_files:
+    - "kickstarter_projects.csv"
+    - "second files/ks-projects-201612.csv"
+    - "second files/ks-projects-201801.csv"
+  
+  # Output files
+  raw_output: "kickstarter_raw.csv"
+  enriched_output: "kickstarter_enriched.csv"
+  causal_features_output: "kickstarter_causal_features.csv"
+  validation_output: "validation_results.csv"
+  
+  # Model files
+  model_file: "causal_models.pkl"
+
+# =============================================================================
+# DATA PROCESSING
+# =============================================================================
+processing:
+  # Sample size (set to null for full dataset)
+  sample_size: 5000
+  
+  # Valid campaign states
+  valid_states:
+    - "successful"
+    - "failed"
+  
+  # Duration constraints
+  min_duration_days: 1
+  max_duration_days: 90
+  
+  # Outlier thresholds
+  max_funding_ratio: 10
+  max_avg_price: 1000
+  max_backers: 10000
+  
+  # Random seed for reproducibility
+  random_seed: 42
+
+# =============================================================================
+# FEATURE ENGINEERING
+# =============================================================================
+features:
+  # Columns used for modeling
+  feature_columns:
+    - "avg_reward_price"
+    - "goal_ambition"
+    - "campaign_duration_days"
+    - "trend_index"
+    - "concurrent_campaigns"
+  
+  # Instrumental variables
+  instrumental_variables:
+    - "is_weekend_launch"
+    - "holiday_proximity"
+    - "trend_spike"
+  
+  # Confounders
+  confounders:
+    - "competition_intensity"
+    - "creator_experience_proxy"
+  
+  # Target variable
+  target: "funding_ratio"
+  
+  # Competition window (days before/after launch)
+  competition_window_days: 14
+  
+  # Trend spike threshold (multiplier of median)
+  trend_spike_threshold: 1.2
+
+# =============================================================================
+# MODEL TRAINING
+# =============================================================================
+models:
+  # Train/test split
+  test_size: 0.2
+  
+  # Cross-validation folds
+  cv_folds: 5
+  
+  # Quantiles for quantile regression
+  quantiles:
+    - 0.1
+    - 0.25
+    - 0.5
+    - 0.75
+    - 0.9
+  
+  # Random Forest parameters
+  random_forest:
+    n_estimators: 100
+    max_depth: 10
+  
+  # Gradient Boosting parameters
+  gradient_boosting:
+    n_estimators: 100
+    max_depth: 6
+  
+  # Causal Forest parameters
+  causal_forest:
+    n_estimators: 100
+    max_depth: 5
+
+# =============================================================================
+# VALIDATION
+# =============================================================================
+validation:
+  # Number of campaigns for temporal validation
+  temporal_validation_n: 10
+  
+  # Number of campaigns for placebo test
+  placebo_test_n: 50
+  
+  # Number of campaigns for Manski bounds
+  manski_bounds_n: 100
+  
+  # Uncertainty range for Manski bounds
+  manski_uncertainty: 0.3
+  
+  # Threshold for passing placebo test
+  placebo_threshold: 0.01
+
+# =============================================================================
+# DASHBOARD
+# =============================================================================
+dashboard:
+  # Page configuration
+  page_title: "Kickstarter Counterfactual Simulator"
+  page_icon: "🚀"
+  layout: "wide"
+  
+  # Default values for inputs
+  defaults:
+    funding_goal: 50000
+    campaign_duration: 30
+    avg_reward_price: 50
+    num_tiers: 5
+    trend_index: 50
+  
+  # Price range for counterfactual analysis
+  price_range_multiplier_low: 0.3
+  price_range_multiplier_high: 2.5
+  price_range_steps: 30
+
+# =============================================================================
+# LOGGING
+# =============================================================================
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/pipeline.log"
+  max_bytes: 10485760  # 10 MB
+  backup_count: 5

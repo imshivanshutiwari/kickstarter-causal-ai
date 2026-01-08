@@ -1,0 +1,32 @@
+
+# Data (Keep raw snippets, ignore large datasets)
+data/
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.env
+
+# VS Code
+.vscode/
+
+# Logs
+logs/
+*.log
+
+# Streamlit
+.streamlit/secrets.toml
+
+# System
+.DS_Store
+Thumbs.db
+
+# Project specific
+artifacts/
