@@ -1,13 +1,12 @@
 # 🦄 Kickstarter Counterfactual Simulator: The Ultimate Edition
 
 
+
 <!-- Header Images -->
 <p align="center">
-  <img src="assets/hero_banner.png" width="100%" alt="Hero Banner">
-</p>
-<p align="center">
-  <img src="assets/deep_analysis.png" width="48%" alt="Deep Analysis">
-  <img src="assets/ai_brain.png" width="48%" alt="AI Brain">
+  <img src="assets/hero_banner.png" width="32%" alt="Hero Banner">
+  <img src="assets/deep_analysis.png" width="32%" alt="Deep Analysis">
+  <img src="assets/ai_brain.png" width="32%" alt="AI Brain">
 </p>
 
 
