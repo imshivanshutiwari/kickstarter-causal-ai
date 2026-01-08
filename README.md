@@ -1,11 +1,11 @@
 # 🦄 Kickstarter Counterfactual Simulator: The Ultimate Edition
 
 ````carousel
-![Hero Banner](file:///C:/Users/SHIVANSHU/.gemini/antigravity/brain/a8b394f4-858d-42a4-9a52-a9ce8f7388cc/project_hero_banner_1767914422671.png)
+![Hero Banner](assets/hero_banner.png)
 <!-- slide -->
-![Deep Analysis](file:///C:/Users/SHIVANSHU/.gemini/antigravity/brain/a8b394f4-858d-42a4-9a52-a9ce8f7388cc/header_deep_analysis_1767914530489.png)
+![Deep Analysis](assets/deep_analysis.png)
 <!-- slide -->
-![AI Brain](file:///C:/Users/SHIVANSHU/.gemini/antigravity/brain/a8b394f4-858d-42a4-9a52-a9ce8f7388cc/header_ai_brain_1767914549218.png)
+![AI Brain](assets/ai_brain.png)
 ````
 
 > **"Where Deep Learning Meets Causal Economics"**
@@ -33,12 +33,28 @@ This system uses **Causal Inference** to simulate parallel universes. It asks: *
 
 ---
 
+## 🧐 Why This Project is World-Unique
+
+Most data science projects make predictions. **This project makes decisions.**
+
 ### The "Deep Causal" Difference
 Standard models (XGBoost/RandomForest) are dangerous for pricing decisions because they confuse **Correlation** with **Causation**.
 *   **Correlation:** "Expensive projects fail." (Why? Maybe they were scams).
 *   **Causation:** "Increasing price *causes* a 5% drop in demand." (The truth).
 
 To differentiate the two, we use a Nobel Prize-winning technique (Instrumental Variables) combined with modern Deep Learning (BERT).
+
+---
+
+## 📸 Visual Showcase
+
+### 1. The Strategy Consultant
+*Your personal AI advisor that gives specific commands based on data.*
+![AI Consultant](assets/ai_consultant.png)
+
+### 2. The Dashboard
+*Real-time simulation of price elasticity and funding probability.*
+![Dashboard Overview](assets/dashboard.png)
 
 ---
 
