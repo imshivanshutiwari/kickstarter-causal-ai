@@ -1,0 +1,5 @@
+test,metric,value,status
+Temporal Validation,MAE,1.660706391077854,WARNING
+Placebo Test,Mean Phantom Effect,0.0005028009002253419,PASSED
+Manski Bounds,% Within Bounds,22.0,WARNING
+Cross-Validation,Mean CV MAE,1.1701469082091482,INFO

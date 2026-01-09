@@ -1,0 +1,119 @@
+============================================================
+KICKSTARTER DATA ENRICHMENT REPORT
+Generated: 2026-01-09 05:42:45
+============================================================
+
+OVERVIEW
+----------------------------------------
+Total campaigns enriched: 2500
+Campaigns with missing Google Trends: 0
+Campaigns near holidays: 0
+Campaigns with reward tier data: 2500
+
+NEW VARIABLES SUMMARY
+----------------------------------------
+
+trend_index:
+  Count: 2500
+  Mean:  49.96
+  Std:   17.30
+  Min:   20.00
+  Max:   79.00
+
+concurrent_campaigns:
+  Count: 2500
+  Mean:  0.66
+  Std:   0.98
+  Min:   0.00
+  Max:   7.00
+
+month:
+  Count: 2500
+  Mean:  6.44
+  Std:   3.36
+  Min:   1.00
+  Max:   12.00
+
+day_of_week:
+  Count: 2500
+  Mean:  2.43
+  Std:   1.75
+  Min:   0.00
+  Max:   6.00
+
+is_holiday_week:
+  Count: 2500
+  Mean:  0.00
+  Std:   0.00
+  Min:   0.00
+  Max:   0.00
+
+num_reward_tiers:
+  Count: 2500
+  Mean:  4.00
+  Std:   0.00
+  Min:   4.00
+  Max:   4.00
+
+min_reward_price:
+  Count: 2500
+  Mean:  71.09
+  Std:   880.27
+  Min:   10.00
+  Max:   40000.00
+
+max_reward_price:
+  Count: 2500
+  Mean:  579.24
+  Std:   7041.41
+  Min:   100.00
+  Max:   320000.00
+
+avg_reward_price:
+  Count: 2500
+  Mean:  271.19
+  Std:   3300.68
+  Min:   46.25
+  Max:   150000.00
+
+price_spread:
+  Count: 2500
+  Mean:  508.15
+  Std:   6161.14
+  Min:   88.00
+  Max:   280000.00
+
+update_frequency:
+  Count: 2500
+  Mean:  0.25
+  Std:   0.23
+  Min:   0.00
+  Max:   3.33
+
+engagement_ratio:
+  Count: 2500
+  Mean:  0.02
+  Std:   0.02
+  Min:   0.00
+  Max:   0.08
+
+QUARTER DISTRIBUTION
+----------------------------------------
+  Q1: 625 campaigns (25.0%)
+  Q2: 628 campaigns (25.1%)
+  Q3: 649 campaigns (26.0%)
+  Q4: 598 campaigns (23.9%)
+
+DAY OF WEEK DISTRIBUTION
+----------------------------------------
+  Monday: 398 campaigns
+  Tuesday: 500 campaigns
+  Wednesday: 451 campaigns
+  Thursday: 403 campaigns
+  Friday: 406 campaigns
+  Saturday: 213 campaigns
+  Sunday: 129 campaigns
+
+============================================================
+END OF REPORT
+============================================================

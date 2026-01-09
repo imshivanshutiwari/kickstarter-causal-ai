@@ -1,8 +1,8 @@
 
-# Data (Keep raw snippets, ignore large datasets)
-data/
-!data/raw/.gitkeep
-!data/processed/.gitkeep
+# Data (Ignore raw downloads, keep processed for deployment)
+data/raw/
+!data/processed/
+!src/models/
 
 # Python
 __pycache__/
