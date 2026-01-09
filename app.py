@@ -532,6 +532,151 @@ def main():
             similar_campaigns.columns = ['Category', 'Goal', 'Avg Price', 'Funding Ratio', 'Status'][:len(available_display)]
             
             st.dataframe(similar_campaigns, use_container_width=True)
+            
+        # --- NEW: Similar Campaigns Comparison Chart ---
+        st.markdown("---")
+        st.subheader("📊 How You Compare to Similar Campaigns")
+        
+        if len(similar_campaigns) > 0:
+            fig_compare = go.Figure()
+            
+            # Similar campaigns funding ratios
+            fig_compare.add_trace(go.Bar(
+                x=list(range(1, len(similar_campaigns)+1)),
+                y=similar_campaigns['Funding Ratio'].values if 'Funding Ratio' in similar_campaigns.columns else [1]*len(similar_campaigns),
+                name='Similar Campaigns',
+                marker_color='#6366F1'
+            ))
+            
+            # Your predicted ratio
+            fig_compare.add_hline(y=funding_ratio, line_dash="dash", line_color="#00D4AA",
+                                 annotation_text=f"Your Prediction: {funding_ratio:.2f}x")
+            
+            fig_compare.update_layout(
+                title="Your Funding Ratio vs Similar Campaigns",
+                xaxis_title="Campaign #",
+                yaxis_title="Funding Ratio",
+                template='plotly_dark',
+                height=350
+            )
+            st.plotly_chart(fig_compare, use_container_width=True)
+
+    # ==========================
+    # TAB 4: ANALYTICS (NEW!)
+    # ==========================
+    # Add new tab for analytics
+    tab4 = st.tabs(["📈 Market Analytics"])[0] if False else None
+    
+    # Since we can't dynamically add tabs, let's add analytics section in the sidebar and main area
+    st.markdown("---")
+    st.header("📈 Market Analytics Dashboard")
+    
+    col_chart1, col_chart2 = st.columns(2)
+    
+    # Chart 1: Category Success Rates
+    with col_chart1:
+        st.subheader("🏆 Success Rate by Category")
+        if 'is_successful' in df.columns:
+            cat_success = df.groupby('category')['is_successful'].mean().sort_values(ascending=True).tail(10) * 100
+            fig_cat = px.bar(
+                x=cat_success.values,
+                y=cat_success.index,
+                orientation='h',
+                labels={'x': 'Success Rate (%)', 'y': 'Category'},
+                color=cat_success.values,
+                color_continuous_scale='Viridis'
+            )
+            fig_cat.update_layout(
+                showlegend=False,
+                template='plotly_dark',
+                height=400,
+                coloraxis_showscale=False
+            )
+            # Highlight user's category
+            if category in cat_success.index:
+                fig_cat.add_vline(x=cat_success[category], line_dash="dot", line_color="#EF4444",
+                                 annotation_text=f"Your Category: {cat_success[category]:.1f}%")
+            st.plotly_chart(fig_cat, use_container_width=True)
+        else:
+            st.info("Category success data not available")
+    
+    # Chart 2: Funding Distribution
+    with col_chart2:
+        st.subheader("💰 Funding Distribution")
+        if 'funding_ratio' in df.columns:
+            fig_dist = px.histogram(
+                df[df['funding_ratio'] < 5],  # Filter outliers
+                x='funding_ratio',
+                nbins=50,
+                labels={'funding_ratio': 'Funding Ratio'},
+                color_discrete_sequence=['#10B981']
+            )
+            fig_dist.add_vline(x=funding_ratio, line_dash="dash", line_color="#EF4444",
+                              annotation_text=f"Your Prediction: {funding_ratio:.2f}x")
+            fig_dist.add_vline(x=1.0, line_dash="dot", line_color="#F59E0B",
+                              annotation_text="Success Line")
+            fig_dist.update_layout(
+                template='plotly_dark',
+                height=400,
+                showlegend=False
+            )
+            st.plotly_chart(fig_dist, use_container_width=True)
+        else:
+            st.info("Funding distribution data not available")
+    
+    col_chart3, col_chart4 = st.columns(2)
+    
+    # Chart 3: Duration vs Success Scatter
+    with col_chart3:
+        st.subheader("⏱️ Duration vs Success")
+        if duration_col in df.columns and 'funding_ratio' in df.columns:
+            sample_df = df.sample(n=min(500, len(df)), random_state=42)
+            fig_scatter = px.scatter(
+                sample_df,
+                x=duration_col,
+                y='funding_ratio',
+                color='is_successful' if 'is_successful' in sample_df.columns else None,
+                opacity=0.6,
+                labels={duration_col: 'Campaign Duration (days)', 'funding_ratio': 'Funding Ratio'},
+                color_discrete_map={0: '#EF4444', 1: '#22C55E'}
+            )
+            # Add user's position
+            fig_scatter.add_trace(go.Scatter(
+                x=[campaign_duration],
+                y=[funding_ratio],
+                mode='markers',
+                marker=dict(size=15, color='#A855F7', symbol='star'),
+                name='Your Campaign'
+            ))
+            fig_scatter.update_layout(
+                template='plotly_dark',
+                height=400
+            )
+            st.plotly_chart(fig_scatter, use_container_width=True)
+        else:
+            st.info("Duration data not available")
+    
+    # Chart 4: Goal vs Backers Trend
+    with col_chart4:
+        st.subheader("👥 Goal vs Backers Correlation")
+        if goal_col in df.columns and 'backers_count' in df.columns:
+            sample_df = df.sample(n=min(500, len(df)), random_state=42)
+            fig_backers = px.scatter(
+                sample_df,
+                x=goal_col,
+                y='backers_count',
+                color='funding_ratio',
+                opacity=0.6,
+                labels={goal_col: 'Funding Goal ($)', 'backers_count': 'Number of Backers'},
+                color_continuous_scale='RdYlGn'
+            )
+            fig_backers.update_layout(
+                template='plotly_dark',
+                height=400
+            )
+            st.plotly_chart(fig_backers, use_container_width=True)
+        else:
+            st.info("Backers data not available")
 
 if __name__ == "__main__":
     main()
