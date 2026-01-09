@@ -325,8 +325,89 @@ def main():
         
         st.plotly_chart(fig, use_container_width=True)
         
+        # --- NEW VISUALIZATION: GOAL SENSITIVITY ---
         st.markdown("---")
-        st.subheader("🎲 Uncertainty Analysis")
+        st.subheader("🎯 Goal Sensitivity: How Ambitious Should You Be?")
+        
+        # Generate Goal Sensitivity Data
+        # Range from 50% to 200% of current goal
+        goal_multipliers = np.linspace(0.5, 2.0, 20)
+        goal_sensitivity = []
+        
+        for mult in goal_multipliers:
+            test_goal = funding_goal * mult
+            features_goal = features.copy()
+            # Recalculate ambition based on this new goal
+            features_goal['goal_ambition'] = test_goal / cat_median_goal if cat_median_goal > 0 else 1.0
+            
+            # Predict
+            pred_ratio = predict_outcome(features_goal, models)
+            
+            goal_sensitivity.append({
+                'Goal': test_goal,
+                'Funding Ratio': pred_ratio,
+                'Probability': min(1.0, max(0.0, (pred_ratio / 1.0)*0.7)) * 100
+            })
+            
+        df_goal_sens = pd.DataFrame(goal_sensitivity)
+        
+        fig_goal = px.line(df_goal_sens, x='Goal', y='Probability', 
+                          title='Success Probability vs Funding Goal',
+                          markers=True)
+        fig_goal.add_vline(x=funding_goal, line_dash="dot", line_color="#EF4444", 
+                          annotation_text="Current Goal")
+        fig_goal.update_traces(line_color='#F59E0B', line_width=3)
+        fig_goal.update_layout(yaxis_title="Probability of Success (%)", template='plotly_dark')
+        
+        st.plotly_chart(fig_goal, use_container_width=True)
+        # -------------------------------------------
+        
+        
+        # --- NEW VISUALIZATION: BENCHMARK RADAR ---
+        with st.sidebar:
+            st.markdown("---")
+            st.subheader("🕸️ Category Benchmark")
+            
+            # Prepare Radar Data
+            categories_radar = ['Price', 'Duration', 'Goal Ambition', 'Trend Score']
+            
+            # Normalize user values (0-1 scale approx for viz)
+            # We compare against category medians we calculated earlier
+            
+            # 1. Price Score (Higher is more expensive relative to market)
+            price_score = min(2.0, avg_reward_price / cat_median_price) if cat_median_price > 0 else 1.0
+            
+            # 2. Duration Score (Higher is longer)
+            cat_median_duration = cat_df[duration_col].median() if len(cat_df) > 0 else 30
+            dur_score = min(2.0, campaign_duration / cat_median_duration) if cat_median_duration > 0 else 1.0
+            
+            # 3. Ambition Score
+            amb_score = min(2.0, goal_ambition)
+            
+            # 4. Trend Score (Normalized 0-1 from 0-100 input)
+            tr_score = trend_index / 50.0 # 50 is avg
+            
+            data_radar = pd.DataFrame(dict(
+                r=[price_score, dur_score, amb_score, tr_score],
+                theta=categories_radar
+            ))
+            
+            fig_radar = px.line_polar(data_radar, r='r', theta='theta', line_close=True)
+            fig_radar.update_traces(fill='toself', line_color='#A855F7')
+            fig_radar.update_layout(
+                polar=dict(
+                    radialaxis=dict(
+                        visible=True,
+                        range=[0, 2.5]
+                    )),
+                template='plotly_dark',
+                title="Vs. Market Average (1.0 = Avg)",
+                height=300,
+                margin=dict(l=30, r=30, t=30, b=30)
+            )
+            
+            st.plotly_chart(fig_radar, use_container_width=True)
+        # -------------------------------------------
         
         # Uncertainty chart (omitted for brevity, assume similar code)
         # For full implementation, keep existing code here.
@@ -384,6 +465,48 @@ def main():
                         st.warning("Moderate Risk")
                     else:
                         st.success("Low Risk")
+
+        # --- NEW VISUALIZATION: FEATURE IMPORTANCE (Always Visible) ---
+        st.markdown("---")
+        with st.expander("🧠 Model Logic: What drives success globally?"):
+            st.write("Relative importance of factors based on our Causal Model:")
+            
+            # Extract coefficients
+            if 'ols' in models:
+                coeffs = models['ols'].coef_
+                feat_names = models['feature_cols']
+                
+                # Create DataFrame
+                fi_df = pd.DataFrame({
+                    'Feature': feat_names,
+                    'Impact': coeffs
+                }).sort_values('Impact', key=abs, ascending=True)
+                
+                # Make names prettier
+                name_map = {
+                    'avg_reward_price': 'Price ($)',
+                    'goal_ambition': 'Goal Ambition',
+                    'campaign_duration_days': 'Duration',
+                    'duration_days': 'Duration',
+                    'trend_index': 'Trendiness',
+                    'concurrent_campaigns': 'Competition',
+                    'nlp_dim_0': 'Keyword Quality'
+                }
+                fi_df['Feature'] = fi_df['Feature'].map(lambda x: name_map.get(x, x))
+                
+                # Color by positive/negative
+                fi_df['Type'] = fi_df['Impact'].apply(lambda x: 'Positive' if x > 0 else 'Negative')
+                color_map = {'Positive': '#22C55E', 'Negative': '#EF4444'}
+                
+                fig_imp = px.bar(fi_df, x='Impact', y='Feature', orientation='h',
+                                title='Factor Impact on Funding Ratio',
+                                color='Type', color_discrete_map=color_map)
+                fig_imp.update_layout(showlegend=False, template='plotly_dark')
+                
+                st.plotly_chart(fig_imp, use_container_width=True)
+            else:
+                st.info("Model coefficients not available.")
+        # -------------------------------------------
 
     # ==========================
     # TAB 3: SIMILAR CAMPAIGNS

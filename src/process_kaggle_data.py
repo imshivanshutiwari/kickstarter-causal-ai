@@ -49,22 +49,72 @@ def main():
     df = df[df['funding_goal'] > 0]
     df = df[df['pledged_amount'] >= 0]
     
-    print(f"After filtering: {len(df)} campaigns")
+    # --- MERGE LIVE DATA ---
+    print("Checking for live scraped data...")
+    live_dfs = []
     
-    # Calculate metrics
+    # 1. Kickstarter Live
+    ks_live_path = base_dir / "data" / "raw" / "kickstarter_live.csv"
+    if ks_live_path.exists():
+        print(f"  Found Kickstarter Live data: {ks_live_path}")
+        ks_live = pd.read_csv(ks_live_path)
+        ks_live['source'] = 'kickstarter_live'
+        live_dfs.append(ks_live)
+        
+    # 2. Indiegogo Live
+    igg_live_path = base_dir / "data" / "raw" / "indiegogo_live.csv"
+    if igg_live_path.exists():
+        print(f"  Found Indiegogo Live data: {igg_live_path}")
+        igg_live = pd.read_csv(igg_live_path)
+        igg_live['source'] = 'indiegogo_live'
+        # Indiegogo structure is a bit different, Ensure mappings
+        # In scraper we used: name, category, funding_goal, pledged_amount, backers_count, status, campaign_duration_days
+        live_dfs.append(igg_live)
+        
+    if live_dfs:
+        df_live = pd.concat(live_dfs, ignore_index=True)
+        # Harmonize columns for live data
+        # Live data already uses standard names from our scrapers, but ensuring 'status' is lowercase
+        df_live['status'] = df_live['status'].str.lower()
+        df_live['is_successful'] = (df_live['status'] == 'successful').astype(int)
+        
+        # Add missing columns with defaults
+        for col in ['country', 'subcategory', 'launch_date', 'end_date']:
+            if col not in df_live.columns:
+                df_live[col] = None # Or reasonable defaults
+                
+        print(f"  Merging {len(df_live)} live campaigns...")
+        df['source'] = 'kaggle' # Mark origin
+        
+        # Combine!
+        # Align columns
+        common_cols = list(set(df.columns) & set(df_live.columns))
+        df = pd.concat([df[common_cols], df_live[common_cols]], ignore_index=True)
+        print(f"Total campaigns after merge: {len(df)}")
+    
+    # --- END MERGE ---
+    
+    print(f"After filtering and merging: {len(df)} campaigns")
+    
+    # Calculate metrics (Re-calc for safety)
     df['is_successful'] = (df['status'] == 'successful').astype(int)
     df['funding_ratio'] = df['pledged_amount'] / df['funding_goal'].replace(0, 1)
     
-    # Sample 2000 for manageable size
-    df_sample = df.sample(n=min(2000, len(df)), random_state=42).copy()
+    # Sample 2000 for manageable size (Prioritize live data if needed, or just mix)
+    # Let's keep ALL live data and sample from Kaggle if needed? 
+    # For now, just simple sample to keep size consistent for user speed
+    df_sample = df.sample(n=min(2500, len(df)), random_state=42).copy()
     
     # Generate synthetic fields not in Kaggle data
     n = len(df_sample)
     np.random.seed(42)
     
+    # Ensure name is string
+    df_sample['name'] = df_sample['name'].astype(str).fillna("Unknown Project")
+    
     df_sample['description_length'] = df_sample['name'].str.len() * np.random.randint(10, 50, n)
     df_sample['num_updates'] = np.random.randint(0, 15, n)
-    df_sample['num_comments'] = (df_sample['backers_count'] * np.random.uniform(0.02, 0.08, n)).astype(int)
+    df_sample['num_comments'] = (df_sample['backers_count'].fillna(0) * np.random.uniform(0.02, 0.08, n)).astype(int)
     
     def gen_tiers(goal):
         base = max(10, int(goal / 500))
@@ -93,6 +143,14 @@ def main():
     print("Category distribution:")
     print(df_sample['category'].value_counts().head(10))
     print()
+    
+    # --- SOURCE BREAKDOWN ---
+    if 'source' in df_sample.columns:
+        print("Data Source Breakdown:")
+        print(df_sample['source'].value_counts())
+        print()
+    # ------------------------
+    
     print(f"Saved to: {output_file}")
     print()
     print("Next step: Run enrichment pipeline")
