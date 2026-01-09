@@ -1,7 +1,5 @@
 # 🦄 Kickstarter Counterfactual Simulator: The Ultimate Edition
 
-
-
 <!-- Header Images -->
 <p align="center">
   <img src="assets/hero_banner.png" width="32%" alt="Hero Banner">
@@ -9,175 +7,193 @@
   <img src="assets/ai_brain.png" width="32%" alt="AI Brain">
 </p>
 
-
 > **"Where Deep Learning Meets Causal Economics"**
-> *An autonomous system that predicts success, optimizes pricing through causal inference, and provides strategic consulting via Generative AI.*
+> *An autonomous system that predicts success, optimizes pricing through causal inference, and provides strategic consulting via AI.*
 
 ---
 
-## 💡 What Is This Project? (And Why You Need It)
+## 🆕 What's New (Latest Update)
+
+| Feature                 | Description                               |
+| ----------------------- | ----------------------------------------- |
+| 🌍 **Multi-Platform**    | Now supports Kickstarter + Indiegogo data |
+| 📊 **8+ Visualizations** | Charts, histograms, scatter plots, radar  |
+| ☁️ **Cloud Ready**       | Deploy to Streamlit Cloud in 2 minutes    |
+| 🔄 **Auto-Updates**      | Scheduled data refresh via cron           |
+| 🎨 **React Frontend**    | Optional Lovable.dev-generated UI         |
+
+---
+
+## 💡 What Is This Project?
 
 Imagine you are launching a product on Kickstarter. You have two burning questions:
 1.  **"Will I succeed?"** (Prediction)
 2.  **"What price should I charge?"** (Strategy)
 
 ### 🚫 The Old Way (Standard AI)
-A normal AI model might look at data and say: *"Projects with high prices fail."*
-So you lower your price... and you **fail anyway**. Why? Because the AI didn't realize that the high-priced projects were failed scams, not failed because they were expensive. It confused *correlation* with *causation*.
+A normal AI might say: *"Projects with high prices fail."*
+So you lower your price... and **fail anyway**. Why? Because it confused *correlation* with *causation*.
 
 ### ✅ The New Way (This Project)
-This system uses **Causal Inference** to simulate parallel universes. It asks: *"If we took YOUR specific project, kept the quality exactly the same, but increased the price by \$10, what happens?"*
-
-**You need this because:**
-*   It distinguishes between **"Cheaper is better"** (Commodity) and **"Expensive is better"** (Premium/Veblen Good).
-*   It protects you from making bad business decisions based on biased data.
-*   It gives you an **AI Consultant** that explains the math in plain English.
+This system uses **Causal Inference** to simulate: *"If we took YOUR project and increased the price by $10, what happens?"*
 
 ---
 
-## 🧐 Why This Project is World-Unique
+## 📊 Dashboard Visualizations (8+)
 
-Most data science projects make predictions. **This project makes decisions.**
-
-### The "Deep Causal" Difference
-Standard models (XGBoost/RandomForest) are dangerous for pricing decisions because they confuse **Correlation** with **Causation**.
-*   **Correlation:** "Expensive projects fail." (Why? Maybe they were scams).
-*   **Causation:** "Increasing price *causes* a 5% drop in demand." (The truth).
-
-To differentiate the two, we use a Nobel Prize-winning technique (Instrumental Variables) combined with modern Deep Learning (BERT).
-
----
-
-## 📸 Visual Showcase
-
-### 1. The Strategy Consultant
-*Your personal AI advisor that gives specific commands based on data.*
-![AI Consultant](assets/ai_consultant.png)
-
-### 2. The Dashboard
-*Real-time simulation of price elasticity and funding probability.*
-![Dashboard Overview](assets/dashboard.png)
+| Chart                           | What It Shows                        |
+| ------------------------------- | ------------------------------------ |
+| **Counterfactual Demand Curve** | Price vs Funding Ratio               |
+| **Goal Sensitivity**            | How goal affects success probability |
+| **Category Benchmark Radar**    | You vs Market Average                |
+| **Feature Importance**          | What drives the AI's predictions     |
+| **Similar Campaigns Bar**       | Your prediction vs similar projects  |
+| **Category Success Rates**      | Bar chart of success by category     |
+| **Funding Distribution**        | Histogram of all funding ratios      |
+| **Duration vs Success Scatter** | Campaign length impact               |
+| **Goal vs Backers Correlation** | Scatter with color gradient          |
 
 ---
 
-## 🧮 Mathematical Foundation
+## 🚀 Quick Start
 
-We estimate the True Causal Goal Ambition Elasticity ($\beta_{price}$) using a **Two-Stage Least Squares (2SLS)** approach, instrumented by the number of concurrent campaigns.
-
-### Stage 1: Predicting the Price (To remove bias)
-We predict the "Clean Price" ($\hat{P}$) using the Instrument ($Z$) and Deep NLP Controls ($X_{nlp}$):
-
-$$ \hat{P} = \alpha_0 + \alpha_1 Z + \alpha_2 X_{nlp} + \epsilon_1 $$
-
-*   $Z$: Concurrent Projects (Supply Shock)
-*   $X_{nlp}$: BERT Embeddings (Quality Control)
-
-### Stage 2: Estimating Causal Effect
-We use the "Clean Price" to predict Funding Ratio ($Y$):
-
-$$ Y = \beta_0 + \beta_{price} \hat{P} + \beta_2 X_{nlp} + \epsilon_2 $$
-
-*   $\beta_{price}$: The **True Causal Effect** of price on success.
-
----
-
-## 🌲 Directory Structure
-
-A production-grade architecture designed for scalability.
-
-```text
-kickstarter-causal-ai/
-├── data/
-│   ├── raw/                 # Immutable raw data (Kaggle/Scraper)
-│   └── processed/           # Feature-engineered parquet files
-├── src/
-│   ├── ai_consultant.py     # 🤖 GenAI Agent logic & Prompts
-│   ├── nlp_features.py      # 🧠 BERT Embedding Pipeline
-│   ├── live_scraper.py      # 🕷️ Selenium Native Scraper
-│   ├── train_models.py      # 📉 Causal Forest & IV Models
-│   ├── api.py               # 🚀 FastAPI Backend
-│   └── kaggle_auto.py       # 📦 Automated Data Sync
-├── tests/
-│   ├── test_pipeline.py     # Core Logic Tests
-│   └── test_ai_features.py  # AI Module Tests
-├── manage_data.py           # 🎛️ Unified CLI Tool
-├── run_pipeline.py          # ⚙️ Orchestrator
-├── app.py                   # 📊 Streamlit Dashboard
-├── config.yaml              # ⚙️ Configuration
-├── requirements.txt         # 📦 Dependencies
-└── README.md                # 📖 Documentation
-```
-
----
-
-## 🚀 Installation & Zero-to-Hero Guide
-
-### 1. Environment Setup
-We recommend using a virtual environment (Anaconda or venv).
-
+### Option 1: Local Development
 ```bash
-# Create environment
-conda create -n kickstarter python=3.10
-conda activate kickstarter
-
 # Clone & Install
-git clone https://github.com/yourusername/kickstarter.git
-cd kickstarter
+git clone https://github.com/imshivanshutiwari/kickstarter-causal-ai.git
+cd kickstarter-causal-ai
 pip install -r requirements.txt
+
+# Run the Manager
+python manage_data.py
+# Select Option 5 → Train & Launch Dashboard
 ```
 
-### 2. The Unified Manager
-We built a custom CLI tool to manage sample data, downloading, scraping, and training.
+### Option 2: Cloud Deployment (FREE)
+1. Go to **https://share.streamlit.io**
+2. Connect your GitHub
+3. Select repo: `imshivanshutiwari/kickstarter-causal-ai`
+4. Main file: `app.py`
+5. Click **Deploy!**
+
+---
+
+## 🎛️ CLI Manager Options
 
 ```bash
 python manage_data.py
 ```
 
-**What happens next?**
-1.  **Menu Opens:** Select "Check for Updates" or "Live Scraper".
-2.  **Automation:** The system pulls data, generates BERT embeddings, trains 2SLS models, and validates accuracy.
-3.  **Launch:** The **Streamlit Dashboard** opens automatically in your browser.
+| Option | Action                                         |
+| ------ | ---------------------------------------------- |
+| 1      | Smart Update (Kaggle) - Check for new data     |
+| 2      | Force Full Update - Re-download everything     |
+| 3      | Scrape Kickstarter Live - Selenium scraper     |
+| 4      | Scrape Indiegogo - Multi-platform support      |
+| 5      | Run Pipeline - Train models & launch dashboard |
+| 6      | Exit                                           |
 
 ---
 
-## 🤖 The AI Components
+## 🧮 Mathematical Foundation
 
-### 1. Deep NLP (The "Eyes")
-*   **Model:** `sentence-transformers/all-MiniLM-L6-v2`
-*   **Function:** Reads project names/blurbs.
-*   **Output:** 384-dimensional dense vectors.
-*   **Why?** To mathematically "control" for project quality so our pricing model isn't fooled.
+We use **Two-Stage Least Squares (2SLS)** with BERT embeddings:
 
-### 2. The Consultant (The "Voice")
-*   **Model:** Logic-based Generative Agent.
-*   **Function:** Takes Causal probabilities + Risk Scores.
-*   **Output:** Human-readable strategy ("Lower price to $45", "Shorten duration").
-*   **Why?** To turn complex math into actionable business advice.
+**Stage 1:** Predict "Clean Price" using instruments:
+$$ \hat{P} = \alpha_0 + \alpha_1 Z + \alpha_2 X_{nlp} + \epsilon_1 $$
+
+**Stage 2:** Estimate causal effect:
+$$ Y = \beta_0 + \beta_{price} \hat{P} + \beta_2 X_{nlp} + \epsilon_2 $$
+
+Where $\beta_{price}$ is the **True Causal Effect** of price on success.
 
 ---
 
-## ❓ Troubleshooting (FAQ)
+## 🌲 Directory Structure
 
-**Q: I get a "Chromedriver" error when scraping.**
-> **A:** Ensure you have Google Chrome installed. The script auto-downloads the matching driver, but it needs the browser.
+```text
+kickstarter-causal-ai/
+├── data/
+│   ├── raw/                 # Kaggle + Scraped data
+│   └── processed/           # Feature-engineered files
+├── src/
+│   ├── ai_consultant.py     # 🤖 AI Strategy Agent
+│   ├── nlp_features.py      # 🧠 BERT Embeddings
+│   ├── live_scraper.py      # 🕷️ Kickstarter Scraper
+│   ├── indiegogo_scraper.py # 🕷️ Indiegogo Scraper (NEW!)
+│   ├── train_models.py      # 📉 Causal Models
+│   ├── api.py               # 🚀 FastAPI Backend
+│   └── scheduled_update.py  # ⏰ Cron Job Handler
+├── manage_data.py           # 🎛️ Unified CLI
+├── run_pipeline.py          # ⚙️ Orchestrator
+├── run_fullstack.py         # 🌐 API + React Launcher
+├── app.py                   # 📊 Streamlit Dashboard
+├── Dockerfile               # 🐳 Container Ready
+└── requirements.txt         # 📦 Dependencies
+```
 
-**Q: The "NLP Features" step is slow.**
-> **A:** Generating BERT embeddings on a CPU takes time (~1 minute for 2,000 rows). On a GPU, it takes seconds.
+---
 
-**Q: Why is my "Price Effect" positive?**
-> **A:** This is the power of **Deep Causal AI**. It detected that for your specific *High-Quality* category, higher prices signal premium value (Veblen Good effect). A standard model would have wrongly told you to lower prices.
+## 🤖 AI Components
+
+| Component         | Model                  | Purpose                      |
+| ----------------- | ---------------------- | ---------------------------- |
+| **NLP Engine**    | MiniLM-L6-v2           | Controls for project quality |
+| **Causal Models** | 2SLS + Causal Forest   | Price elasticity estimation  |
+| **AI Consultant** | Rule-based + LLM-ready | Strategic recommendations    |
+
+---
+
+## 🔄 Automatic Data Updates
+
+For production, set up a cron job:
+
+```bash
+# Run daily at 3 AM
+0 3 * * * cd /path/to/project && python src/scheduled_update.py
+```
 
 ---
 
 ## 🛡️ Robustness Certification
 
-| Test            | Status   | Description                               |
-| :-------------- | :------- | :---------------------------------------- |
-| **Unit Tests**  | ✅ PASSED | ALL modules covered by `pytest`.          |
-| **API Stress**  | ✅ PASSED | Handles missing data/NLP gracefully.      |
-| **Data Safety** | ✅ PASSED | Auto-Switching between Kaggle & Scraper.  |
-| **Math Check**  | ✅ PASSED | Placebo tests confirm no false positives. |
+| Test             | Status   |
+| ---------------- | -------- |
+| Unit Tests       | ✅ PASSED |
+| API Stress       | ✅ PASSED |
+| Data Safety      | ✅ PASSED |
+| Math Validation  | ✅ PASSED |
+| Cloud Deployment | ✅ READY  |
 
 ---
 
-> *Project Architected by Antigravity Agent.*
+## 📱 Alternative: React Frontend
+
+A premium React + Tailwind frontend is available:
+
+```bash
+cd "page design"
+npm install
+npm run dev
+# Opens at http://localhost:8080
+
+# Run API separately:
+python -m uvicorn src.api:app --reload --port 8000
+```
+
+---
+
+## ❓ FAQ
+
+**Q: Chromedriver error?**
+> Install Google Chrome. Driver auto-downloads.
+
+**Q: NLP is slow?**
+> CPU needs ~1 min. GPU is seconds.
+
+**Q: Why is price effect positive?**
+> Your category is a "Premium/Veblen Good" - higher prices signal quality!
+
+---
+
+> *Built with Causal AI by Antigravity Agent* 🦄
